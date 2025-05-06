@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSec Toolkit v4.0 | Ahmad Raza</title>
+    <style>
+        :root {
+            --primary: #0d1117;
+            --secondary: #161b22;
+            --accent: #58a6ff;
+            --text: #c9d1d9;
+            --danger: #f85149;
+            --success: #238636;
+        }
+        body {
+            font-family: 'Courier New', monospace;
+            background: var(--primary);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: var(--secondary);
+            padding: 20px;
+            border-bottom: 1px solid #30363d;
+            text-align: center;
+        }
+        h1 {
+            color: var(--accent);
+            margin: 0;
+        }
+        .disclaimer {
+            background: var(--danger);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+        .tool-card {
+            background: var(--secondary);
+            border: 1px solid #30363d;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tool-card h2 {
+            color: var(--accent);
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: var(--primary);
+            border: 1px solid #30363d;
+            color: var(--text);
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .result-box {
+            background: var(--primary);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+            border: 1px solid #30363d;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .success {
+            color: var(--success);
+        }
+        .error {
+            color: var(--danger);
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #30363d;
+            font-size: 0.9em;
+        }
+        .tab {
+            overflow: hidden;
+            border: 1px solid #30363d;
+            background-color: var(--secondary);
+            border-radius: 5px 5px 0 0;
+        }
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+        .tab button:hover {
+            background-color: #1f2937;
+        }
+        .tab button.active {
+            background-color: var(--primary);
+            border-bottom: 2px solid var(--accent);
+        }
+        .tabcontent {
+            display: none;
+            padding: 20px;
+            border: 1px solid #30363d;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            animation: fadeEffect 1s;
+        }
+        @keyframes fadeEffect {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🛡️ CyberSec Toolkit v4.0</h1>
+        <p>by Ahmad Raza | Ethical Hacking Only</p>
+    </header>
+
+    <div class="container">
+        <div class="disclaimer">
+            ⚠️ WARNING: For authorized security testing only. Unauthorized use is illegal.
+        </div>
+
+        <div class="tab">
+            <button class="tablinks active" onclick="openTab(event, 'passwordCracker')">🔑 Password Cracker</button>
+            <button class="tablinks" onclick="openTab(event, 'networkScanner')">🌐 Network Scanner</button>
+            <button class="tablinks" onclick="openTab(event, 'phishingDetector')">🎣 Phishing Detector</button>
+            <button class="tablinks" onclick="openTab(event, 'wifiAnalyzer')">📶 Wi-Fi Analyzer</button>
+            <button class="tablinks" onclick="openTab(event, 'darkWebMonitor')">🌑 Dark Web Monitor</button>
+        </div>
+
+        <!-- Password Cracker Tab -->
+        <div id="passwordCracker" class="tabcontent" style="display: block;">
+            <h2>🔑 Advanced Password Cracker</h2>
+            <p>Crack hashed passwords using multiple techniques</p>
+            
+            <select id="hashAlgorithm">
+                <option value="md5">MD5</option>
+                <option value="sha1">SHA1</option>
+                <option value="sha256" selected>SHA256</option>
+                <option value="sha512">SHA512</option>
+            </select>
+            
+            <input type="text" id="hashInput" placeholder="Enter hash to crack">
+            <textarea id="wordlist" placeholder="Custom wordlist (one per line)"></textarea>
+            <button onclick="crackPassword()">Crack Password</button>
+            
+            <div id="passwordResult" class="result-box">
+                Results will appear here...
+            </div>
+        </div>
+
+        <!-- Network Scanner Tab -->
+        <div id="networkScanner" class="tabcontent">
+            <h2>🌐 Network Scanner</h2>
+            <p>Discover devices and open ports on your network</p>
+            
+            <input type="text" id="ipRange" placeholder="IP range (e.g., 192.168.1.1/24)" value="192.168.1.1/24">
+            <button onclick="scanNetwork()">Scan Network</button>
+            
+            <div id="networkResult" class="result-box">
+                Scan results will appear here...
+            </div>
+        </div>
+
+        <!-- Phishing Detector Tab -->
+        <div id="phishingDetector" class="tabcontent">
+            <h2>🎣 Phishing Detector</h2>
+            <p>Check if a website is potentially phishing</p>
+            
+            <input type="text" id="phishingUrl" placeholder="Enter URL to check">
+            <button onclick="detectPhishing()">Analyze URL</button>
+            
+            <div id="phishingResult" class="result-box">
+                Analysis results will appear here...
+            </div>
+        </div>
+
+        <!-- Wi-Fi Analyzer Tab -->
+        <div id="wifiAnalyzer" class="tabcontent">
+            <h2>📶 Wi-Fi Analyzer</h2>
+            <p>Scan nearby wireless networks (Linux only)</p>
+            
+            <button onclick="scanWifi()">Scan Wi-Fi Networks</button>
+            
+            <div id="wifiResult" class="result-box">
+                Wi-Fi scan results will appear here...
+            </div>
+        </div>
+
+        <!-- Dark Web Monitor Tab -->
+        <div id="darkWebMonitor" class="tabcontent">
+            <h2>🌑 Dark Web Monitor</h2>
+            <p>Check if your email appears in data breaches</p>
+            
+            <input type="email" id="darkwebEmail" placeholder="Your email address">
+            <button onclick="checkDarkWeb()">Check Breaches</button>
+            
+            <div id="darkwebResults" class="result-box">
+                Breach check results will appear here...
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 | Developed by Ahmad Raza | For Ethical Hacking Research Only</p>
+    </footer>
+
+    <script>
+        // Tab functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        // Password Cracker
+        async function crackPassword() {
+            const hash = document.getElementById('hashInput').value;
+            const algorithm = document.getElementById('hashAlgorithm').value;
+            const wordlist = document.getElementById('wordlist').value.split('\n').filter(w => w.trim() !== '');
+            const resultDiv = document.getElementById('passwordResult');
+            
+            if (!hash) {
+                resultDiv.innerHTML = '<span class="error">Please enter a hash to crack</span>';
+                return;
+            }
+            
+            resultDiv.innerHTML = "Cracking password... This may take some time.";
+            
+            try {
+                const response = await fetch('/api/crack', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        hash: hash,
+                        algorithm: algorithm,
+                        wordlist: wordlist.length > 0 ? wordlist : undefined
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === "success") {
+                    resultDiv.innerHTML = `
+                        <span class="success">✅ Password found!</span>
+                        Hash: ${hash}
+                        Algorithm: ${algorithm}
+                        Password: <strong>${data.password}</strong>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <span class="error">❌ Password not found</span>
+                        ${data.message}
+                        ${data.suggestion ? '\n' + data.suggestion : ''}
+                    `;
+                }
+            } catch (e) {
+                resultDiv.innerHTML = `<span class="error">Error: ${e.message}</span>`;
+            }
+        }
+
+        // Network Scanner
+        async function scanNetwork() {
+            const ipRange = document.getElementById('ipRange').value;
+            const resultDiv = document.getElementById('networkResult');
+            
+            if (!ipRange) {
+                resultDiv.innerHTML = '<span class="error">Please enter an IP range</span>';
+                return;
+            }
+            
+            resultDiv.innerHTML = "Scanning network... This may take a few minutes.";
+            
+            try {
+                const response = await fetch('/api/scan', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({target: ipRange})
+                });
+                
+                const data = await response.json();
+                
+                if (data.status === "success") {
+                    let output = `Scan results for ${ipRange}:\n\n`;
+                    
+                    data.results.forEach(device => {
+                        output += `IP: ${device.ip}\n`;
+                        output += `MAC: ${device.mac}\n`;
+                        output += `OS: ${device.os}\n`;
+                        
+                        if (device.ports.length > 0) {
+                            output += "Open Ports:\n";
+                            device.ports.forEach(port => {
+                                output += `• Port ${port.port}: ${port.service} (${port.state})\n`;
+                                if (port.vulnerability !== 'No known vulnerabilities') {
+                                    output += `  ⚠️ ${port.vulnerability}\n`;
+                                }
+                            });
+                        } else {
+                            output += "No open ports found\n";
+                        }
+                        
+                        output += "\n";
+                    });
+                    
+                    resultDiv.innerHTML = output;
+                } else {
+                    resultDiv.innerHTML = `<span class="error">Scan failed: ${data.error || 'Unknown error'}</span>`;
+                }
+            } catch (e) {
+                resultDiv.innerHTML = `<span class="error">Error: ${e.message}</span>`;
+            }
+        }
+
+        // Phishing Detector
+        async function detectPhishing() {
+            const url = document.getElementById('phishingUrl').value;
+            const resultDiv = document.getElementById('phishingResult');
+            
+            if (!url) {
+                resultDiv.innerHTML = '<span class="error">Please enter a URL to check</span>';
+                return;
+            }
+            
+            resultDiv.innerHTML = "Analyzing URL for phishing indicators...";
+            
+            try {
+                const response = await fetch('/api/phishing', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({url: url})
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    resultDiv.innerHTML = `<span class="error">Error: ${data.error}</span>`;
+                    return;
+                }
+                
+                let output = `Phishing Analysis for ${url}:\n\n`;
+                output += `Domain: ${data.domain}\n`;
+                output += `Domain Age: ${data.domain_age} years\n`;
+                output += `SSL Valid: ${data.ssl_valid ? '✅ Yes' : '❌ No'}\n`;
+                
+                if (data.ai_confidence) {
+                    output += `AI Confidence: ${Math.round(data.ai_confidence * 100)}%\n`;
+                    output += `AI Label: ${data.ai_label}\n`;
+                }
+                
+                output += `\nVerdict: ${data.is_phishing ? '⚠️ LIKELY PHISHING' : '✅ Probably Safe'}\n`;
+                
+                if (data.is_phishing && data.reasons) {
+                    output += `\nReasons:\n`;
+                    data.reasons.forEach(reason => {
+                        if (reason) output += `• ${reason}\n`;
+                    });
+                }
+                
+                resultDiv.innerHTML = output;
+            } catch (e) {
+                resultDiv.innerHTML = `<span class="error">Error: ${e.message}</span>`;
+            }
+        }
+
+        // Wi-Fi Analyzer
+        async function scanWifi() {
+            const resultDiv = document.getElementById('wifiResult');
+            resultDiv.innerHTML = "Scanning for nearby Wi-Fi networks...";
+            
+            try {
+                const response = await fetch('/api/wifi', {
+                    method: 'GET'
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    resultDiv.innerHTML = `<span class="error">${data.error}</span>`;
+                    return;
+                }
+                
+                if (data.networks.length === 0) {
+                    resultDiv.innerHTML = "No Wi-Fi networks found";
+                    return;
+                }
+                
+                let output = "Nearby Wi-Fi Networks:\n\n";
+                data.networks.forEach(net => {
+                    output += `• ${net.ssid} (Signal: ${net.quality})\n`;
+                });
+                
+                resultDiv.innerHTML = output;
+            } catch (e) {
+                resultDiv.innerHTML = `<span class="error">Error: ${e.message}</span>`;
+            }
+        }
+
+        // Dark Web Monitor
+        async function checkDarkWeb() {
+            const email = document.getElementById('darkwebEmail').value;
+            const resultDiv = document.getElementById('darkwebResults');
+            
+            if (!email || !email.includes('@')) {
+                resultDiv.innerHTML = '<span class="error">Please enter a valid email address</span>';
+                return;
+            }
+            
+            resultDiv.innerHTML = "Checking dark web for breaches...";
+            
+            try {
+                const response = await fetch('/api/darkweb', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email: email})
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    resultDiv.innerHTML = `<span class="error">${data.error}</span>`;
+                    return;
+                }
+                
+                let output = `Dark Web Check for ${email}:\n\n`;
+                
+                if (data.breaches.length === 0) {
+                    output += "✅ No breaches found\n";
+                } else {
+                    output += `⚠️ Found in ${data.breaches.length} breach(es):\n\n`;
+                    data.breaches.forEach(breach => {
+                        output += `• ${breach.name} (${breach.date})\n`;
+                        output += `  Data leaked: ${breach.data_leaked}\n\n`;
+                    });
+                }
+                
+                output += `\nNote: ${data.note}`;
+                resultDiv.innerHTML = output;
+            } catch (e) {
+                resultDiv.innerHTML = `<span class="error">Error: ${e.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html>
